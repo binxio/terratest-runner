@@ -1,0 +1,23 @@
+FROM golang:alpine
+
+ARG TERRAFORM_VERSION=0.12.20
+ENV TERRAFORM_VERSION=$TERRAFORM_VERSION
+
+# Get terraform, dep
+RUN apk --no-cache add curl git unzip gcc g++ make ca-certificates && \
+    curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh && \
+    \
+    mkdir tmp && \
+    curl "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip" -o tmp/terraform.zip && \
+    unzip tmp/terraform.zip -d /usr/local/bin && \
+    rm -rf tmp/
+
+ARG GOPROJECTPATH=/go/src/app
+COPY files $GOPROJECTPATH/test
+
+WORKDIR $GOPROJECTPATH
+
+# Get terratest (and test) dependencies and move them out of the way so we can mount over /go/src/app
+RUN cd test && dep ensure -v && mv vendor/* /go/src
+
+CMD ["go", "test", "-v", "./test"]

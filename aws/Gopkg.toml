@@ -1,0 +1,7 @@
+[[constraint]]
+  name = "github.com/gruntwork-io/terratest"
+  version = "0.18.6"
+
+[[constraint]]
+  name = "github.com/aws/aws-sdk-go"
+  version = "1.29.10"

@@ -1,5 +1,6 @@
 FROM golang:alpine
 
+ARG FILES_PATH=files
 ARG TERRAFORM_VERSION=0.12.20
 ENV TERRAFORM_VERSION=$TERRAFORM_VERSION
 
@@ -13,7 +14,7 @@ RUN apk --no-cache add curl git unzip gcc g++ make ca-certificates && \
     rm -rf tmp/
 
 ARG GOPROJECTPATH=/go/src/app
-COPY files $GOPROJECTPATH/test
+COPY $FILES_PATH $GOPROJECTPATH/test
 
 WORKDIR $GOPROJECTPATH
 

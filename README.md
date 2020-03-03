@@ -1,6 +1,7 @@
 Terratest runner
 ---------------------------------
 This is a simple docker which will run [terratest](https://github.com/gruntwork-io/terratest) for you.
+The source code for this docker is hosted in [GitHub](https://github.com/binxio/terratest-runner).
 
 Example Makefile for your module project:
 ```
@@ -10,7 +11,7 @@ test:
 	docker run --rm -it -v ${HOME}/.aws/:/root/.aws/:ro -v $(PWD):/go/src/app/ binxio/terratest-runner:latest
 ```
 
-From within your Terraform directory you can then run:
+From within your Terraform directory, you can then run:
 ```
 make test
 ```

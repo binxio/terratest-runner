@@ -12,6 +12,8 @@ docker-gcp: Dockerfile
 docker-azure: Dockerfile
 	docker build --build-arg FILES_PATH=azure -t terratest-runner-azure:latest .
 
+docker-all: docker docker-aws docker-gcp docker-azure
+
 push:
 	docker push binxio/terratest-runner
 
@@ -23,3 +25,5 @@ push-gcp:
 
 push-azure:
 	docker push binxio/terratest-runner-azure
+
+push-all: push push-aws push-gcp push-azure

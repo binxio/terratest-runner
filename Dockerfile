@@ -1,7 +1,7 @@
 FROM golang:alpine
 
 ARG FILES_PATH=files
-ARG TERRAFORM_VERSION=0.12.21
+ARG TERRAFORM_VERSION=0.12.26
 ENV TERRAFORM_VERSION=$TERRAFORM_VERSION
 
 # Get terraform, dep
@@ -18,7 +18,8 @@ COPY $FILES_PATH $GOPROJECTPATH/test
 
 WORKDIR $GOPROJECTPATH
 
-# Get terratest (and test) dependencies and move them out of the way so we can mount over /go/src/app
-RUN cd test && dep ensure -v && mv vendor/* /go/src
+RUN GO111MODULE=on go get -u github.com/gruntwork-io/terratest/cmd/terratest_log_parser && \
+	# Get terratest (and test) dependencies and move them out of the way so we can mount over /go/src/app
+	cd test && dep ensure -v && mv vendor/* /go/src
 
 CMD ["go", "test", "-v", "./test"]
